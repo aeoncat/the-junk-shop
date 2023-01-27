@@ -11,9 +11,9 @@
 }
 
 body {
-  font-family: Montserrat, sans-serif;
+  font-family: amster;
   color: #1a1b1f;
-  font-size: 16px;
+  font-size: 24px;
   line-height: 28px;
   font-weight: 400;
 }
@@ -192,7 +192,8 @@ figcaption {
 
 .paragraph-bigger.cc-bigger-white-light {
   opacity: 0.6;
-  font-family: amster, sans-serif;
+  font-family: amster;
+  font-size: 1.5 em;
   color: #000;
   font-weight: 400;
   background-clip: border-box;
