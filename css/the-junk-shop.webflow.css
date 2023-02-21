@@ -193,16 +193,6 @@ figcaption {
   text-shadow: 4px 4px 2px #000;
 }
 
-.paragraph-bigger.cc-bigger-whte-light {
-  opacity: 0.6;
-  font-family: amster, sans-serif;
-  color: #fff;
-  font-weight: 700;
-  text-shadow: 1px 1px 2px #fff, 1px 1px 6px #000;
-  background-clip: border-box;
-  -webkit-text-fill-color: inherit;
-}
-
 .button {
   padding: 12px 25px;
   border-radius: 0px;
@@ -608,7 +598,7 @@ figcaption {
   background-color: #000;
   background-image: url('../images/top_1.png'), -webkit-gradient(linear, left top, left bottom, from(#fff), to(#fff));
   background-image: url('../images/top_1.png'), linear-gradient(180deg, #fff, #fff);
-  background-position: 50% 0%, 0px 0px;
+  background-position: 50% 50%, 0px 0px;
   background-size: contain, auto;
   background-repeat: no-repeat, repeat;
   background-attachment: fixed, scroll;
@@ -616,7 +606,7 @@ figcaption {
   filter: contrast(200%);
   font-family: amster, sans-serif;
   color: #fff;
-  mix-blend-mode: darken;
+  mix-blend-mode: normal;
 }
 
 .intro-header.cc-subpage.contact {
@@ -1068,10 +1058,6 @@ figcaption {
     text-align: center;
   }
 
-  .paragraph-bigger.cc-bigger-whte-light {
-    font-weight: 700;
-  }
-
   .button {
     -webkit-box-pack: center;
     -webkit-justify-content: center;
@@ -1159,9 +1145,12 @@ figcaption {
   }
 
   .intro-header.cc-subpage.uhaul {
-    background-image: -webkit-gradient(linear, left top, left bottom, from(hsla(0, 0%, 100%, 0.63)), to(hsla(0, 0%, 100%, 0.63))), url('../images/flag.jpeg'), -webkit-gradient(linear, left top, left bottom, from(#fff), to(#fff));
-    background-image: linear-gradient(180deg, hsla(0, 0%, 100%, 0.63), hsla(0, 0%, 100%, 0.63)), url('../images/flag.jpeg'), linear-gradient(180deg, #fff, #fff);
-    background-size: auto, contain, auto;
+    background-image: url('../images/flag.jpeg'), -webkit-gradient(linear, left top, left bottom, from(#fff), to(#fff));
+    background-image: url('../images/flag.jpeg'), linear-gradient(180deg, #fff, #fff);
+    background-position: 50% 0%, 0px 0px;
+    background-size: contain, auto;
+    background-repeat: no-repeat, repeat;
+    background-attachment: scroll, scroll;
   }
 
   .blog-detail-header-wrap {
@@ -1224,10 +1213,6 @@ figcaption {
     line-height: 28px;
   }
 
-  .paragraph-bigger.cc-bigger-whte-light {
-    font-weight: 700;
-  }
-
   .rich-text {
     width: 90%;
     max-width: 470px;
@@ -1275,12 +1260,12 @@ figcaption {
 
   .intro-header.cc-subpage.uhaul {
     height: 600px;
-    background-image: -webkit-gradient(linear, left top, left bottom, from(hsla(0, 0%, 100%, 0.61)), to(hsla(0, 0%, 100%, 0.61))), url('../images/flag.jpeg'), -webkit-gradient(linear, left top, left bottom, from(#fff), to(#fff));
-    background-image: linear-gradient(180deg, hsla(0, 0%, 100%, 0.61), hsla(0, 0%, 100%, 0.61)), url('../images/flag.jpeg'), linear-gradient(180deg, #fff, #fff);
-    background-position: 0px 0px, 50% 100%, 0px 0px;
-    background-size: auto, auto 100%, auto;
-    background-repeat: repeat, no-repeat, repeat;
-    background-attachment: scroll, scroll, scroll;
+    background-image: url('../images/flag.jpeg'), -webkit-gradient(linear, left top, left bottom, from(#fff), to(#fff));
+    background-image: url('../images/flag.jpeg'), linear-gradient(180deg, #fff, #fff);
+    background-position: 50% 100%, 0px 0px;
+    background-size: auto 100%, auto;
+    background-repeat: no-repeat, repeat;
+    background-attachment: scroll, scroll;
   }
 
   .intro-content {
@@ -1306,11 +1291,6 @@ figcaption {
   h1 {
     font-size: 36px;
     line-height: 52px;
-  }
-
-  .paragraph-bigger.cc-bigger-whte-light {
-    font-family: amster, sans-serif;
-    font-weight: 700;
   }
 
   .rich-text {
@@ -1378,24 +1358,26 @@ figcaption {
 
   .intro-header.cc-subpage {
     background-color: transparent;
-    background-image: -webkit-gradient(linear, left top, left bottom, from(hsla(0, 0%, 93.3%, 0.65)), to(hsla(0, 0%, 93.3%, 0.65))), url('../images/top.png');
-    background-image: linear-gradient(180deg, hsla(0, 0%, 93.3%, 0.65), hsla(0, 0%, 93.3%, 0.65)), url('../images/top.png');
-    background-position: 0px 0px, 50% 0%;
-    background-size: auto, auto 75vh;
-    background-repeat: repeat, no-repeat;
-    background-attachment: scroll, fixed;
-    box-shadow: 1px 1px 3px 0 #000;
+    background-image: url('../images/top.png');
+    background-position: 50% 0%;
+    background-size: auto 75vh;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    -webkit-filter: contrast(200%);
+    filter: contrast(200%);
   }
 
   .intro-header.cc-subpage.uhaul {
     height: 400px;
     margin-top: -2px;
-    background-image: -webkit-gradient(linear, left top, left bottom, from(hsla(0, 0%, 100%, 0.61)), to(hsla(0, 0%, 100%, 0.61))), url('../images/flag.jpeg'), -webkit-gradient(linear, left top, left bottom, from(#fff), to(#fff));
-    background-image: linear-gradient(180deg, hsla(0, 0%, 100%, 0.61), hsla(0, 0%, 100%, 0.61)), url('../images/flag.jpeg'), linear-gradient(180deg, #fff, #fff);
-    background-position: 0px 0px, 50% 0%, 0px 0px;
-    background-size: auto, contain, auto;
-    background-repeat: repeat, no-repeat, repeat;
-    background-attachment: scroll, scroll, scroll;
+    background-image: url('../images/flag.jpeg'), -webkit-gradient(linear, left top, left bottom, from(#fff), to(#fff));
+    background-image: url('../images/flag.jpeg'), linear-gradient(180deg, #fff, #fff);
+    background-position: 50% 0%, 0px 0px;
+    background-size: contain, auto;
+    background-repeat: no-repeat, repeat;
+    background-attachment: scroll, scroll;
+    -webkit-filter: none;
+    filter: none;
   }
 
   .blog-detail-header-wrap {
