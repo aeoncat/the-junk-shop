@@ -88,7 +88,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 3);
+/******/ 	return __webpack_require__(__webpack_require__.s = 4);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -115,9 +115,9 @@ var $win = $(window);
 var $doc = $(document);
 var isFunction = $.isFunction;
 
-var _ = Webflow._ = __webpack_require__(5);
+var _ = Webflow._ = __webpack_require__(6);
 
-var tram = Webflow.tram = __webpack_require__(1) && $.tram;
+var tram = Webflow.tram = __webpack_require__(2) && $.tram;
 var domready = false;
 var destroyed = false;
 tram.config.hideBackface = false;
@@ -435,6 +435,86 @@ module.exports = window.Webflow = Webflow;
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
+// @wf-will-never-add-flow-to-this-file
+
+/* globals window */
+
+/* eslint-disable no-var */
+
+/**
+ * Webflow: IX Event triggers for other modules
+ */
+// eslint-disable-next-line strict
+
+
+var $ = window.jQuery;
+var api = {};
+var eventQueue = [];
+var namespace = '.w-ix';
+var eventTriggers = {
+  reset: function reset(i, el) {
+    el.__wf_intro = null;
+  },
+  intro: function intro(i, el) {
+    if (el.__wf_intro) {
+      return;
+    }
+
+    el.__wf_intro = true;
+    $(el).triggerHandler(api.types.INTRO);
+  },
+  outro: function outro(i, el) {
+    if (!el.__wf_intro) {
+      return;
+    }
+
+    el.__wf_intro = null;
+    $(el).triggerHandler(api.types.OUTRO);
+  }
+};
+api.triggers = {};
+api.types = {
+  INTRO: 'w-ix-intro' + namespace,
+  OUTRO: 'w-ix-outro' + namespace
+}; // Trigger any events in queue + restore trigger methods
+
+api.init = function () {
+  var count = eventQueue.length;
+
+  for (var i = 0; i < count; i++) {
+    var memo = eventQueue[i];
+    memo[0](0, memo[1]);
+  }
+
+  eventQueue = [];
+  $.extend(api.triggers, eventTriggers);
+}; // Replace all triggers with async wrapper to queue events until init
+
+
+api.async = function () {
+  for (var key in eventTriggers) {
+    var func = eventTriggers[key];
+
+    if (!eventTriggers.hasOwnProperty(key)) {
+      continue;
+    } // Replace trigger method with async wrapper
+
+
+    api.triggers[key] = function (i, el) {
+      eventQueue.push([func, el]);
+    };
+  }
+}; // Default triggers to async queue
+
+
+api.async();
+module.exports = api;
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
  // @wf-will-never-add-flow-to-this-file
 
 /* eslint-disable eslint-comments/no-unlimited-disable */
@@ -450,9 +530,9 @@ module.exports = window.Webflow = Webflow;
 
 /* prettier-ignore */
 
-var _interopRequireDefault = __webpack_require__(2);
+var _interopRequireDefault = __webpack_require__(3);
 
-var _typeof2 = _interopRequireDefault(__webpack_require__(6));
+var _typeof2 = _interopRequireDefault(__webpack_require__(7));
 
 window.tram = function (a) {
   function b(a, b) {
@@ -1319,7 +1399,7 @@ window.tram = function (a) {
 }(window.jQuery);
 
 /***/ }),
-/* 2 */
+/* 3 */
 /***/ (function(module, exports) {
 
 function _interopRequireDefault(obj) {
@@ -1331,22 +1411,24 @@ function _interopRequireDefault(obj) {
 module.exports = _interopRequireDefault;
 
 /***/ }),
-/* 3 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(4);
-__webpack_require__(7);
+__webpack_require__(5);
 __webpack_require__(8);
 __webpack_require__(9);
 __webpack_require__(10);
+__webpack_require__(1);
 __webpack_require__(11);
 __webpack_require__(12);
 __webpack_require__(13);
-module.exports = __webpack_require__(18);
+__webpack_require__(14);
+__webpack_require__(15);
+module.exports = __webpack_require__(20);
 
 
 /***/ }),
-/* 4 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1437,7 +1519,7 @@ Webflow.define('brand', module.exports = function ($) {
 });
 
 /***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1449,7 +1531,7 @@ Webflow.define('brand', module.exports = function ($) {
 /* eslint-disable no-var */
 
 var $ = window.$;
-var tram = __webpack_require__(1) && $.tram;
+var tram = __webpack_require__(2) && $.tram;
 /*!
  * Webflow._ (aka) Underscore.js 1.6.0 (custom build)
  * _.each
@@ -1812,7 +1894,7 @@ module.exports = function () {
 /* eslint-enable */
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, exports) {
 
 function _typeof2(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof2 = function _typeof2(obj) { return typeof obj; }; } else { _typeof2 = function _typeof2(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof2(obj); }
@@ -1834,7 +1916,7 @@ function _typeof(obj) {
 module.exports = _typeof;
 
 /***/ }),
-/* 7 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2121,7 +2203,7 @@ Webflow.define('focus-visible', module.exports = function () {
 });
 
 /***/ }),
-/* 8 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2229,7 +2311,7 @@ Webflow.define('focus-within', module.exports = function () {
 });
 
 /***/ }),
-/* 9 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2337,7 +2419,588 @@ Webflow.define('focus', module.exports = function () {
 });
 
 /***/ }),
-/* 10 */
+/* 11 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+ // @wf-will-never-add-flow-to-this-file
+
+/* globals window */
+
+/* eslint-disable no-var */
+
+/**
+ * Webflow: Interactions
+ */
+
+var Webflow = __webpack_require__(0);
+
+var IXEvents = __webpack_require__(1);
+
+Webflow.define('ix', module.exports = function ($, _) {
+  var api = {};
+  var designer;
+  var $win = $(window);
+  var namespace = '.w-ix';
+  var tram = $.tram;
+  var env = Webflow.env;
+  var inApp = env();
+  var emptyFix = env.chrome && env.chrome < 35;
+  var transNone = 'none 0s ease 0s';
+  var $subs = $();
+  var config = {};
+  var anchors = [];
+  var loads = [];
+  var readys = [];
+  var destroyed;
+  var readyDelay = 1; // Component types and proxy selectors
+
+  var components = {
+    tabs: '.w-tab-link, .w-tab-pane',
+    dropdown: '.w-dropdown',
+    slider: '.w-slide',
+    navbar: '.w-nav'
+  }; // -----------------------------------
+  // Module methods
+
+  api.init = function (list) {
+    setTimeout(function () {
+      configure(list);
+    }, 1);
+  };
+
+  api.preview = function () {
+    designer = false;
+    readyDelay = 100;
+    setTimeout(function () {
+      configure(window.__wf_ix);
+    }, 1);
+  };
+
+  api.design = function () {
+    designer = true;
+    api.destroy();
+  };
+
+  api.destroy = function () {
+    destroyed = true;
+    $subs.each(teardown);
+    Webflow.scroll.off(scroll);
+    IXEvents.async();
+    anchors = [];
+    loads = [];
+    readys = [];
+  };
+
+  api.ready = function () {
+    // Redirect IX init while in design/preview modes
+    if (inApp) {
+      return env('design') ? api.design() : api.preview();
+    } // Ready should only be used after destroy, as a way to re-init
+
+
+    if (config && destroyed) {
+      destroyed = false;
+      init();
+    }
+  };
+
+  api.run = run;
+  api.style = inApp ? styleApp : stylePub; // -----------------------------------
+  // Private methods
+
+  function configure(list) {
+    if (!list) {
+      return;
+    } // Map all interactions by slug
+
+
+    config = {};
+
+    _.each(list, function (item) {
+      config[item.slug] = item.value;
+    }); // Init ix after config
+
+
+    init();
+  }
+
+  function init() {
+    initIX1Engine(); // Need init IXEvents regardless if IX1 events exist since
+    // IXEvents _also_ dispatch IX2 events.
+    // Trigger queued events, must happen after init
+
+    IXEvents.init(); // Trigger a redraw to ensure all IX intros play
+
+    Webflow.redraw.up();
+  }
+
+  function initIX1Engine() {
+    // Build each element's interaction keying from data attribute
+    var els = $('[data-ix]');
+
+    if (!els.length) {
+      return;
+    }
+
+    els.each(teardown);
+    els.each(build); // Listen for scroll events if any anchors exist
+
+    if (anchors.length) {
+      Webflow.scroll.on(scroll);
+      setTimeout(scroll, 1);
+    } // Handle loads or readys if they exist
+
+
+    if (loads.length) {
+      Webflow.load(runLoads);
+    }
+
+    if (readys.length) {
+      setTimeout(runReadys, readyDelay);
+    }
+  }
+
+  function build(i, el) {
+    var $el = $(el);
+    var id = $el.attr('data-ix');
+    var ix = config[id];
+
+    if (!ix) {
+      return;
+    }
+
+    var triggers = ix.triggers;
+
+    if (!triggers) {
+      return;
+    } // Set styles immediately to provide tram with starting transform values
+
+
+    api.style($el, ix.style);
+
+    _.each(triggers, function (trigger) {
+      var state = {};
+      var type = trigger.type;
+      var stepsB = trigger.stepsB && trigger.stepsB.length;
+
+      function runA() {
+        run(trigger, $el, {
+          group: 'A'
+        });
+      }
+
+      function runB() {
+        run(trigger, $el, {
+          group: 'B'
+        });
+      }
+
+      if (type === 'load') {
+        trigger.preload && !inApp ? loads.push(runA) : readys.push(runA);
+        return;
+      }
+
+      if (type === 'click') {
+        $el.on('click' + namespace, function (evt) {
+          // Avoid late clicks on touch devices
+          if (!Webflow.validClick(evt.currentTarget)) {
+            return;
+          } // Prevent default on empty hash urls
+
+
+          if ($el.attr('href') === '#') {
+            evt.preventDefault();
+          }
+
+          run(trigger, $el, {
+            group: state.clicked ? 'B' : 'A'
+          });
+
+          if (stepsB) {
+            state.clicked = !state.clicked;
+          }
+        });
+        $subs = $subs.add($el);
+        return;
+      }
+
+      if (type === 'hover') {
+        $el.on('mouseenter' + namespace, runA);
+        $el.on('mouseleave' + namespace, runB);
+        $subs = $subs.add($el);
+        return;
+      }
+
+      if (type === 'scroll') {
+        anchors.push({
+          el: $el,
+          trigger: trigger,
+          state: {
+            active: false
+          },
+          offsetTop: convert(trigger.offsetTop),
+          offsetBot: convert(trigger.offsetBot)
+        });
+        return;
+      } // Check for a proxy component selector
+      // type == [tabs, dropdown, slider, navbar]
+
+
+      var proxy = components[type];
+
+      if (proxy) {
+        var $proxy = $el.closest(proxy);
+        $proxy.on(IXEvents.types.INTRO, runA).on(IXEvents.types.OUTRO, runB);
+        $subs = $subs.add($proxy);
+        return;
+      }
+    });
+  }
+
+  function convert(offset) {
+    if (!offset) {
+      return 0;
+    }
+
+    offset = String(offset);
+    var result = parseInt(offset, 10); // eslint-disable-next-line no-self-compare
+
+    if (result !== result) {
+      return 0;
+    }
+
+    if (offset.indexOf('%') > 0) {
+      result /= 100;
+
+      if (result >= 1) {
+        result = 0.999;
+      }
+    }
+
+    return result;
+  }
+
+  function teardown(i, el) {
+    $(el).off(namespace);
+  }
+
+  function scroll() {
+    var viewTop = $win.scrollTop();
+    var viewHeight = $win.height(); // Check each anchor for a valid scroll trigger
+
+    var count = anchors.length;
+
+    for (var i = 0; i < count; i++) {
+      var anchor = anchors[i];
+      var $el = anchor.el;
+      var trigger = anchor.trigger;
+      var stepsB = trigger.stepsB && trigger.stepsB.length;
+      var state = anchor.state;
+      var top = $el.offset().top;
+      var height = $el.outerHeight();
+      var offsetTop = anchor.offsetTop;
+      var offsetBot = anchor.offsetBot;
+
+      if (offsetTop < 1 && offsetTop > 0) {
+        offsetTop *= viewHeight;
+      }
+
+      if (offsetBot < 1 && offsetBot > 0) {
+        offsetBot *= viewHeight;
+      }
+
+      var active = top + height - offsetTop >= viewTop && top + offsetBot <= viewTop + viewHeight;
+
+      if (active === state.active) {
+        continue;
+      }
+
+      if (active === false && !stepsB) {
+        continue;
+      }
+
+      state.active = active;
+      run(trigger, $el, {
+        group: active ? 'A' : 'B'
+      });
+    }
+  }
+
+  function runLoads() {
+    var count = loads.length;
+
+    for (var i = 0; i < count; i++) {
+      loads[i]();
+    }
+  }
+
+  function runReadys() {
+    var count = readys.length;
+
+    for (var i = 0; i < count; i++) {
+      readys[i]();
+    }
+  }
+
+  function run(trigger, $el, opts, replay) {
+    opts = opts || {};
+    var done = opts.done;
+    var preserve3d = trigger.preserve3d; // Do not run in designer unless forced
+
+    if (designer && !opts.force) {
+      return;
+    } // Operate on a set of grouped steps
+
+
+    var group = opts.group || 'A';
+    var loop = trigger['loop' + group];
+    var steps = trigger['steps' + group];
+
+    if (!steps || !steps.length) {
+      return;
+    }
+
+    if (steps.length < 2) {
+      loop = false;
+    } // One-time init before any loops
+
+
+    if (!replay) {
+      // Find selector within element descendants, siblings, or query whole document
+      var selector = trigger.selector;
+
+      if (selector) {
+        if (trigger.descend) {
+          $el = $el.find(selector);
+        } else if (trigger.siblings) {
+          $el = $el.siblings(selector);
+        } else {
+          $el = $(selector);
+        }
+
+        if (inApp) {
+          $el.attr('data-ix-affect', 1);
+        }
+      } // Apply empty fix for certain Chrome versions
+
+
+      if (emptyFix) {
+        $el.addClass('w-ix-emptyfix');
+      } // Set preserve3d for triggers with 3d transforms
+
+
+      if (preserve3d) {
+        $el.css('transform-style', 'preserve-3d');
+      }
+    }
+
+    var _tram = tram($el); // Add steps
+
+
+    var meta = {
+      omit3d: !preserve3d
+    };
+
+    for (var i = 0; i < steps.length; i++) {
+      addStep(_tram, steps[i], meta);
+    }
+
+    function fin() {
+      // Run trigger again if looped
+      if (loop) {
+        return run(trigger, $el, opts, true);
+      } // Reset any 'auto' values
+
+
+      if (meta.width === 'auto') {
+        _tram.set({
+          width: 'auto'
+        });
+      }
+
+      if (meta.height === 'auto') {
+        _tram.set({
+          height: 'auto'
+        });
+      } // Run callback
+
+
+      done && done();
+    } // Add final step to queue if tram has started
+
+
+    meta.start ? _tram.then(fin) : fin();
+  }
+
+  function addStep(_tram, step, meta) {
+    var addMethod = 'add';
+    var startMethod = 'start'; // Once the transition has started, we will always use then() to add to the queue.
+
+    if (meta.start) {
+      addMethod = startMethod = 'then';
+    } // Parse transitions string on the current step
+
+
+    var transitions = step.transition;
+
+    if (transitions) {
+      transitions = transitions.split(',');
+
+      for (var i = 0; i < transitions.length; i++) {
+        var transition = transitions[i];
+
+        _tram[addMethod](transition);
+      }
+    } // Build a clean object to pass to the tram method
+
+
+    var clean = tramify(step, meta) || {}; // Store last width and height values
+
+    if (clean.width != null) {
+      meta.width = clean.width;
+    }
+
+    if (clean.height != null) {
+      meta.height = clean.height;
+    } // When transitions are not present, set values immediately and continue queue.
+
+
+    if (transitions == null) {
+      // If we have started, wrap set() in then() and reset queue
+      if (meta.start) {
+        _tram.then(function () {
+          var queue = this.queue;
+          this.set(clean);
+
+          if (clean.display) {
+            _tram.redraw();
+
+            Webflow.redraw.up();
+          }
+
+          this.queue = queue;
+          this.next();
+        });
+      } else {
+        _tram.set(clean); // Always redraw after setting display
+
+
+        if (clean.display) {
+          _tram.redraw();
+
+          Webflow.redraw.up();
+        }
+      } // Use the wait() method to kick off queue in absence of transitions.
+
+
+      var wait = clean.wait;
+
+      if (wait != null) {
+        _tram.wait(wait);
+
+        meta.start = true;
+      } // Otherwise, when transitions are present
+
+    } else {
+      // If display is present, handle it separately
+      if (clean.display) {
+        var display = clean.display; // eslint-disable-next-line webflow/no-delete
+
+        delete clean.display; // If we've already started, we need to wrap it in a then()
+
+        if (meta.start) {
+          _tram.then(function () {
+            var queue = this.queue;
+            this.set({
+              display: display
+            }).redraw();
+            Webflow.redraw.up();
+            this.queue = queue;
+            this.next();
+          });
+        } else {
+          _tram.set({
+            display: display
+          }).redraw();
+
+          Webflow.redraw.up();
+        }
+      } // Otherwise, start a transition using the current start method.
+
+
+      _tram[startMethod](clean);
+
+      meta.start = true;
+    }
+  } // (In app) Set styles immediately and manage upstream transition
+
+
+  function styleApp(el, data) {
+    var _tram = tram(el); // Exit early when data is empty to avoid clearing upstream
+
+
+    if ($.isEmptyObject(data)) {
+      return;
+    } // Get computed transition value
+
+
+    el.css('transition', '');
+    var computed = el.css('transition'); // If computed is set to none, clear upstream
+
+    if (computed === transNone) {
+      computed = _tram.upstream = null;
+    } // Set upstream transition to none temporarily
+
+
+    _tram.upstream = transNone; // Set values immediately
+
+    _tram.set(tramify(data)); // Only restore upstream in preview mode
+
+
+    _tram.upstream = computed;
+  } // (Published) Set styles immediately on specified jquery element
+
+
+  function stylePub(el, data) {
+    tram(el).set(tramify(data));
+  } // Build a clean object for tram
+
+
+  function tramify(obj, meta) {
+    var omit3d = meta && meta.omit3d;
+    var result = {};
+    var found = false;
+
+    for (var key in obj) {
+      if (key === 'transition') {
+        continue;
+      }
+
+      if (key === 'keysort') {
+        continue;
+      }
+
+      if (omit3d) {
+        if (key === 'z' || key === 'rotateX' || key === 'rotateY' || key === 'scaleZ') {
+          continue;
+        }
+      }
+
+      result[key] = obj[key];
+      found = true;
+    } // If empty, return null for tram.set/stop compliance
+
+
+    return found ? result : null;
+  } // Export module
+
+
+  return api;
+});
+
+/***/ }),
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2467,7 +3130,7 @@ Webflow.define('links', module.exports = function ($, _) {
 });
 
 /***/ }),
-/* 11 */
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2722,7 +3385,7 @@ Webflow.define('scroll', module.exports = function ($) {
 });
 
 /***/ }),
-/* 12 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2863,7 +3526,7 @@ Webflow.define('touch', module.exports = function ($) {
 });
 
 /***/ }),
-/* 13 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2883,9 +3546,9 @@ Webflow.define('touch', module.exports = function ($) {
  * Webflow: Forms
  */
 
-var _interopRequireDefault = __webpack_require__(2);
+var _interopRequireDefault = __webpack_require__(3);
 
-var _slicedToArray2 = _interopRequireDefault(__webpack_require__(14));
+var _slicedToArray2 = _interopRequireDefault(__webpack_require__(16));
 
 var Webflow = __webpack_require__(0);
 
@@ -3468,14 +4131,14 @@ Webflow.define('forms', module.exports = function ($, _) {
 });
 
 /***/ }),
-/* 14 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var arrayWithHoles = __webpack_require__(15);
+var arrayWithHoles = __webpack_require__(17);
 
-var iterableToArrayLimit = __webpack_require__(16);
+var iterableToArrayLimit = __webpack_require__(18);
 
-var nonIterableRest = __webpack_require__(17);
+var nonIterableRest = __webpack_require__(19);
 
 function _slicedToArray(arr, i) {
   return arrayWithHoles(arr) || iterableToArrayLimit(arr, i) || nonIterableRest();
@@ -3484,7 +4147,7 @@ function _slicedToArray(arr, i) {
 module.exports = _slicedToArray;
 
 /***/ }),
-/* 15 */
+/* 17 */
 /***/ (function(module, exports) {
 
 function _arrayWithHoles(arr) {
@@ -3494,7 +4157,7 @@ function _arrayWithHoles(arr) {
 module.exports = _arrayWithHoles;
 
 /***/ }),
-/* 16 */
+/* 18 */
 /***/ (function(module, exports) {
 
 function _iterableToArrayLimit(arr, i) {
@@ -3526,7 +4189,7 @@ function _iterableToArrayLimit(arr, i) {
 module.exports = _iterableToArrayLimit;
 
 /***/ }),
-/* 17 */
+/* 19 */
 /***/ (function(module, exports) {
 
 function _nonIterableRest() {
@@ -3536,7 +4199,7 @@ function _nonIterableRest() {
 module.exports = _nonIterableRest;
 
 /***/ }),
-/* 18 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3552,7 +4215,7 @@ module.exports = _nonIterableRest;
 
 var Webflow = __webpack_require__(0);
 
-var IXEvents = __webpack_require__(19);
+var IXEvents = __webpack_require__(21);
 
 var KEY_CODES = {
   ARROW_LEFT: 37,
@@ -4135,7 +4798,7 @@ Webflow.define('navbar', module.exports = function ($, _) {
 });
 
 /***/ }),
-/* 19 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4147,7 +4810,7 @@ Webflow.define('navbar', module.exports = function ($, _) {
 // eslint-disable-next-line strict
 
 
-var IXEvents = __webpack_require__(20);
+var IXEvents = __webpack_require__(1);
 
 function dispatchCustomEvent(element, eventName) {
   var event = document.createEvent('CustomEvent');
@@ -4183,85 +4846,11 @@ api.types = {
 $.extend(api.triggers, eventTriggers);
 module.exports = api;
 
-/***/ }),
-/* 20 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-// @wf-will-never-add-flow-to-this-file
-
-/* globals window */
-
-/* eslint-disable no-var */
-
-/**
- * Webflow: IX Event triggers for other modules
- */
-// eslint-disable-next-line strict
-
-
-var $ = window.jQuery;
-var api = {};
-var eventQueue = [];
-var namespace = '.w-ix';
-var eventTriggers = {
-  reset: function reset(i, el) {
-    el.__wf_intro = null;
-  },
-  intro: function intro(i, el) {
-    if (el.__wf_intro) {
-      return;
-    }
-
-    el.__wf_intro = true;
-    $(el).triggerHandler(api.types.INTRO);
-  },
-  outro: function outro(i, el) {
-    if (!el.__wf_intro) {
-      return;
-    }
-
-    el.__wf_intro = null;
-    $(el).triggerHandler(api.types.OUTRO);
-  }
-};
-api.triggers = {};
-api.types = {
-  INTRO: 'w-ix-intro' + namespace,
-  OUTRO: 'w-ix-outro' + namespace
-}; // Trigger any events in queue + restore trigger methods
-
-api.init = function () {
-  var count = eventQueue.length;
-
-  for (var i = 0; i < count; i++) {
-    var memo = eventQueue[i];
-    memo[0](0, memo[1]);
-  }
-
-  eventQueue = [];
-  $.extend(api.triggers, eventTriggers);
-}; // Replace all triggers with async wrapper to queue events until init
-
-
-api.async = function () {
-  for (var key in eventTriggers) {
-    var func = eventTriggers[key];
-
-    if (!eventTriggers.hasOwnProperty(key)) {
-      continue;
-    } // Replace trigger method with async wrapper
-
-
-    api.triggers[key] = function (i, el) {
-      eventQueue.push([func, el]);
-    };
-  }
-}; // Default triggers to async queue
-
-
-api.async();
-module.exports = api;
-
 /***/ })
-/******/ ]);
+/******/ ]);/**
+ * ----------------------------------------------------------------------
+ * Webflow: Interactions: Init
+ */
+Webflow.require('ix').init([
+  {"slug":"new-interaction","name":"New Interaction","value":{"style":{},"triggers":[]}}
+]);
