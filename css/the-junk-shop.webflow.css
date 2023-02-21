@@ -1009,9 +1009,12 @@ figcaption {
   }
 
   .intro-header.cc-subpage.uhaul {
-    background-image: -webkit-gradient(linear, left top, left bottom, from(null), to(null)), url('../images/flag.jpeg'), -webkit-gradient(linear, left top, left bottom, from(null), to(null));
-    background-image: linear-gradient(180deg, null, null), url('../images/flag.jpeg'), linear-gradient(180deg, null, null);
-    background-size: auto, contain, auto;
+    background-image: url('../images/flag.jpeg'), -webkit-gradient(linear, left top, left bottom, from(#fff), to(#fff));
+    background-image: url('../images/flag.jpeg'), linear-gradient(180deg, #fff, #fff);
+    background-position: 50% 50%, 0px 0px;
+    background-size: contain, auto;
+    background-repeat: no-repeat, repeat;
+    background-attachment: scroll, scroll;
   }
 
   .link-2 {
